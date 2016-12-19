@@ -55,8 +55,16 @@ class AutocompleteTrieTest extends FunSpec with Matchers with BeforeAndAfter {
     }
 
     it("suggest 4 words") {
-      val expectedSuggestion = List("pandora", "paypal", "pg&e", "phone")
-      autocomplete.suggestByPrefix("p", 4) shouldBe expectedSuggestion
+      autocomplete.suggestByPrefix("p", 4) shouldBe List("pandora", "paypal", "pg&e", "phone")
+      autocomplete.suggestByPrefix("pro", 4) shouldBe List("proactive", "processor", "procurable", "progenex")
+    }
+
+    it("one word when just one match") {
+      autocomplete.suggestByPrefix("k", 4) shouldBe List("kayak")
+    }
+
+    it("empty suggestion when not found") {
+      autocomplete.suggestByPrefix("x", 4) shouldBe List()
     }
   }
 }
