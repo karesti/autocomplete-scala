@@ -5,31 +5,31 @@ import org.scalatest._
 class AutocompleteTrieTest extends FunSpec with Matchers with BeforeAndAfter {
 
   val testWords = List(
-    "Pandora",
-    "Pinterest",
-    "Paypal",
-    "Pg&e",
-    "Project free tv Priceline",
-    "Press democrat",
-    "Progressive",
-    "Project runway",
-    "Proactive",
-    "Programming",
-    "Progeria",
-    "Progesterone",
-    "Progenex",
-    "Procurable",
-    "Processor",
-    "Proud",
-    "Print",
-    "Prank",
-    "Bowl",
-    "Owl",
-    "River",
-    "Phone",
-    "Kayak",
-    "Stamps",
-    "Reprobe")
+    "pandora",
+    "pinterest",
+    "paypal",
+    "pg&e",
+    "project free tv priceline",
+    "press democrat",
+    "progressive",
+    "project runway",
+    "proactive",
+    "programming",
+    "progeria",
+    "progesterone",
+    "progenex",
+    "procurable",
+    "processor",
+    "proud",
+    "print",
+    "prank",
+    "bowl",
+    "owl",
+    "river",
+    "phone",
+    "kayak",
+    "stamps",
+    "reprobe")
 
   var autocomplete: AutocompleteTrie = _
 
@@ -40,7 +40,7 @@ class AutocompleteTrieTest extends FunSpec with Matchers with BeforeAndAfter {
   describe("Autocomplete") {
     it("insert and read all the words sorted asc") {
       autocomplete.putAll(testWords)
-      autocomplete.all() shouldBe testWords.map(_.toLowerCase).sorted
+      autocomplete.all() shouldBe testWords.sorted
     }
 
     it("autocomplete size and words size should match") {
@@ -57,12 +57,6 @@ class AutocompleteTrieTest extends FunSpec with Matchers with BeforeAndAfter {
     }
 
     it("suggest 4 words") {
-      val expectedSuggestion = List("pandora", "paypal", "pg&e", "phone")
-      autocomplete.putAll(testWords)
-      autocomplete.suggestByPrefix("P", 4) shouldBe expectedSuggestion
-    }
-
-    it("suggestion should work in lower case") {
       val expectedSuggestion = List("pandora", "paypal", "pg&e", "phone")
       autocomplete.putAll(testWords)
       autocomplete.suggestByPrefix("p", 4) shouldBe expectedSuggestion

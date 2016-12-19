@@ -31,13 +31,13 @@ class AutocompleteTrie(R: Int = 256) {
       }
     }
 
-    put(words, word.toLowerCase, 0)
+    put(words, word, 0)
   }
 
   def putAll(words: List[String]) = words.foreach(put(_))
 
   def exists(word: String): Boolean = {
-    get(Some(words), word.toLowerCase, 0).map(_.isWord).getOrElse(false)
+    get(Some(words), word, 0).map(_.isWord).getOrElse(false)
   }
 
   def size = wordCount
@@ -49,7 +49,7 @@ class AutocompleteTrie(R: Int = 256) {
   }
 
   def suggestByPrefix(prefix: String, max: Int): List[String] = {
-    val lowerCasePrefix = prefix.toLowerCase
+    val lowerCasePrefix = prefix
     val prefixRoot = get(Some(words), lowerCasePrefix, 0)
     val results = new mutable.Queue[String]()
     collect(prefixRoot, new StringBuilder(lowerCasePrefix), results, max)
