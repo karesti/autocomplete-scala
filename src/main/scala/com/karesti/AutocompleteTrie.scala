@@ -23,14 +23,14 @@ class AutocompleteTrie(R: Int = 256) {
   private val words: TrieNode = new TrieNode
 
   def put(word: String) = {
-    @tailrec def put(node: TrieNode, word: String, index: Int): Unit = {
+    @tailrec def put(node: TrieNode, index: Int): Unit = {
       // When we reached the end of the word and the node is not tracked as a word
       if (index == word.length && !node.isWord) {
         node.isWord = true
         wordCount += 1
       } else if (index < word.length) {
         //Get the Node corresponding to te possition
-        //TODO Katia: Make possible to keep a smaller caracter list R and convert the char into a valable position
+        //TODO Improvement: Make possible to keep a smaller caracter list R and convert the char into a valable position
         val nodePosition = word.charAt(index).toInt
 
         if (node.childs(nodePosition).isEmpty)
@@ -38,11 +38,12 @@ class AutocompleteTrie(R: Int = 256) {
           node.childs.update(nodePosition, Some(new TrieNode))
 
         //Continue with the next caracter index in the word
-        put(node.childs(nodePosition).get, word, index + 1)
+        put(node.childs(nodePosition).get, index + 1)
       }
     }
 
-    put(words, word, 0)
+    // start from root
+    put(node = words, index = 0)
   }
 
   def putAll(words: List[String]) = words.foreach(put(_))
@@ -53,30 +54,38 @@ class AutocompleteTrie(R: Int = 256) {
 
   def size = wordCount
 
-  def all(): List[String] = {
+  def all: List[String] = {
     val results = new mutable.Queue[String]()
     collect(Some(words), new StringBuilder(""), results, wordCount)
     results.toList
   }
 
   def suggestByPrefix(prefix: String, max: Int = 4): List[String] = {
-    val lowerCasePrefix = prefix
-    val prefixRoot = get(Some(words), lowerCasePrefix, 0)
+    // Get the parent node prefix for the words
+    val prefixRoot = get(Some(words), prefix, 0)
+    // We will track the words in a Queue
     val results = new mutable.Queue[String]()
-    collect(prefixRoot, new StringBuilder(lowerCasePrefix), results, max)
+    // Call collect starting from the common ancestor TrieNode
+    collect(prefixRoot, new StringBuilder(prefix), results, max)
+    //Convert results in a immutable list
     results.toList
   }
 
   /**
-    * Get method points to the TrieNode prefix
+    * Returns the TrieNode corresponding to the last caracter of the prefix
     **/
-  private def get(maybeNode: Option[TrieNode], prefix: String, d: Int): Option[TrieNode] = {
+  private def get(maybeNode: Option[TrieNode],
+    prefix: String,
+    pos: Int): Option[TrieNode] = {
+    // when the
     maybeNode.map { node =>
-      if (prefix.length == d)
+      // When pos is the prefix length, we are in the TrieNode corresponding to the prefix
+      if (prefix.length == pos)
         node
-      else {
-        return get(node.childs(prefix.charAt(d).toInt), prefix, d + 1)
-      }
+      else
+      // Recursif call. We take the current char and convert it to a position to navigate down
+      // for the next TrieNode
+        return get(node.childs(prefix.charAt(pos).toInt), prefix, pos + 1)
     }
   }
 

@@ -40,7 +40,7 @@ class AutocompleteTrieTest extends FunSpec with Matchers with BeforeAndAfter {
 
   describe("Autocomplete") {
     it("insert and read all the words sorted asc") {
-      autocomplete.all() shouldBe testWords.sorted
+      autocomplete.all shouldBe testWords.sorted
     }
 
     it("autocomplete size and words size should match") {
@@ -54,11 +54,13 @@ class AutocompleteTrieTest extends FunSpec with Matchers with BeforeAndAfter {
       autocomplete.exists("42") shouldBe false
     }
 
-    it("suggest 4 words") {
+    it("suggest max 4 words") {
       autocomplete.suggestByPrefix("p") shouldBe List("pandora", "paypal", "pg&e", "phone")
       autocomplete.suggestByPrefix("pr") shouldBe List("prank", "press democrat", "print", "proactive")
       autocomplete.suggestByPrefix("pro") shouldBe List("proactive", "processor", "procurable", "progenex")
       autocomplete.suggestByPrefix("prog") shouldBe List("progenex", "progeria", "progesterone", "programming")
+      autocomplete.suggestByPrefix("proge") shouldBe List("progenex", "progeria", "progesterone")
+      autocomplete.suggestByPrefix("progenex") shouldBe List("progenex")
     }
 
     it("one word when just one match") {
