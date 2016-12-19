@@ -59,7 +59,7 @@ class AutocompleteTrie(R: Int = 256) {
     results.toList
   }
 
-  def suggestByPrefix(prefix: String, max: Int): List[String] = {
+  def suggestByPrefix(prefix: String, max: Int = 4): List[String] = {
     val lowerCasePrefix = prefix
     val prefixRoot = get(Some(words), lowerCasePrefix, 0)
     val results = new mutable.Queue[String]()

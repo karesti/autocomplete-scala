@@ -55,8 +55,10 @@ class AutocompleteTrieTest extends FunSpec with Matchers with BeforeAndAfter {
     }
 
     it("suggest 4 words") {
-      autocomplete.suggestByPrefix("p", 4) shouldBe List("pandora", "paypal", "pg&e", "phone")
-      autocomplete.suggestByPrefix("pro", 4) shouldBe List("proactive", "processor", "procurable", "progenex")
+      autocomplete.suggestByPrefix("p") shouldBe List("pandora", "paypal", "pg&e", "phone")
+      autocomplete.suggestByPrefix("pr") shouldBe List("prank", "press democrat", "print", "proactive")
+      autocomplete.suggestByPrefix("pro") shouldBe List("proactive", "processor", "procurable", "progenex")
+      autocomplete.suggestByPrefix("prog") shouldBe List("progenex", "progeria", "progesterone", "programming")
     }
 
     it("one word when just one match") {
