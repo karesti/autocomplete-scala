@@ -3,7 +3,7 @@ Autocomplete coded in scala implemented as a R-Trie (Ascii extended)
 
 ## Going further
 
-R-Trie are very straightforward, but they consume extra espace due to the array allocation.
+R-Trie are very straightforward, but they consume extra space due to the array allocation.
 A better solution for memory usage will be to use a TST (Ternary Search Trie) which is not
 very difficult to implement but more complex than R-Trie.
 
@@ -26,5 +26,5 @@ Delete method should also be implemented in the Trie.
 ##### What would you change if the requirements were to match any portion of the keywords 
 
 I would start with the brute force solution to implement a "contains" method, but there are other algorithms out
-there I should probablu study better in order to implement substring search with regular expressions and 
+there I should probably study better in order to implement substring search with regular expressions and 
 DFA (Deterministic Finite Automation)(I only know the existence of these algorithms)
