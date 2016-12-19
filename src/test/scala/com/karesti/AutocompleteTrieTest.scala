@@ -35,20 +35,18 @@ class AutocompleteTrieTest extends FunSpec with Matchers with BeforeAndAfter {
 
   before {
     autocomplete = new AutocompleteTrie
+    autocomplete.putAll(testWords)
   }
 
   describe("Autocomplete") {
     it("insert and read all the words sorted asc") {
-      autocomplete.putAll(testWords)
       autocomplete.all() shouldBe testWords.sorted
     }
 
     it("autocomplete size and words size should match") {
-      autocomplete.putAll(testWords)
       autocomplete.size shouldBe testWords.size
     }
     it("exist answers true when word exists and false when not found") {
-      autocomplete.putAll(testWords)
       testWords.foreach { w =>
         autocomplete.exists(w) shouldBe true
       }
@@ -58,7 +56,6 @@ class AutocompleteTrieTest extends FunSpec with Matchers with BeforeAndAfter {
 
     it("suggest 4 words") {
       val expectedSuggestion = List("pandora", "paypal", "pg&e", "phone")
-      autocomplete.putAll(testWords)
       autocomplete.suggestByPrefix("p", 4) shouldBe expectedSuggestion
     }
   }
