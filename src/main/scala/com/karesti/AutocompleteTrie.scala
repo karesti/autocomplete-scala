@@ -73,15 +73,13 @@ class AutocompleteTrie(R: Int = 256) {
 
     if (max == results.length) return
 
-    maybeNode match {
-      case Some(node) =>
-        if (node.isWord) results.enqueue(prefix.toString())
-        for (c <- 0 to R - 1) {
-          prefix.append(c.toChar)
-          collect(node.childs(c), prefix, results, max)
-          prefix.deleteCharAt(prefix.length - 1)
-        }
-      case _ =>
+    maybeNode.map { node =>
+      if (node.isWord) results.enqueue(prefix.toString())
+      for (c <- 0 to R - 1) {
+        prefix.append(c.toChar)
+        collect(node.childs(c), prefix, results, max)
+        prefix.deleteCharAt(prefix.length - 1)
+      }
     }
   }
 }
