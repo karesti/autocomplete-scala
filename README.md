@@ -1,6 +1,8 @@
 # autocomplete-scala
 Autocomplete coded in scala implemented as a R-Trie (Ascii extended)
 
+sbt test to run the tests
+
 ## Going further
 
 R-Trie are very straightforward, but they consume extra space due to the array allocation.
